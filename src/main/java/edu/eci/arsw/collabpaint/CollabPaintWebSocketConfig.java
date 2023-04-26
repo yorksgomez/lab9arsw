@@ -27,14 +27,21 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.beans.factory.annotation.Value; 
 
 @Configuration
 @EnableWebSocketMessageBroker
 public class CollabPaintWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+    @Value("${sock.host}")   
+    private String host;
+	
+    @Value("${sock.port}")
+    private int port;    
+	
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay("/topic/").setRelayHost("192.168.56.4").setRelayPort(61613);
+        config.enableStompBrokerRelay("/topic/").setRelayHost(host).setRelayPort(port);   
         config.setApplicationDestinationPrefixes("/app");        
     }
 
